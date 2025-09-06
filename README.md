@@ -1,685 +1,202 @@
-# 🧠 Mental Health Support System - SIH 2024
+# MindCare Campus - Mental Health Support Platform
 
-## 📝 Problem Statement Summary
-**Build a Digital Psychological Intervention System for college students** to provide:
-- Stigma-free mental health support
-- Early detection of mental health issues
-- Easy access to counselling services
-- Data-driven insights for college administration
+A comprehensive mental health support platform designed specifically for students, featuring AI-powered assessments, counselor chat, crisis detection, and educational resources.
 
-## 🎯 Our Solution: **MindCare Campus**
+## 🌟 Features
 
-A modern web application using Django REST Framework + Firebase + React with Tailwind CSS for comprehensive mental health support.
+### Core Functionality
+- **Mental Health Assessments**: PHQ-9 and GAD-7 screening tools
+- **Real-time Counselor Chat**: Direct messaging with mental health professionals
+- **Appointment Booking**: Schedule sessions with counselors
+- **Educational Resources**: Access to mental health information and tools
+- **Crisis Detection**: AI-powered risk assessment and intervention
+- **Anonymous Mode**: Privacy-focused anonymous interactions
+- **Multi-language Support**: Available in multiple languages
 
-## ✨ Key Features (As Required by PS)
+### Technical Features
+- **Modern React Architecture**: Built with React 19, TypeScript, and Vite
+- **Responsive Design**: Mobile-first design with Tailwind CSS
+- **Authentication System**: Firebase integration with mock fallback
+- **Real-time Updates**: Live chat and notifications
+- **Progressive Web App**: Offline capabilities and mobile optimization
+- **Accessibility**: WCAG 2.1 compliant design
 
-### 1. 🤖 AI-Guided First-Aid Support
-- **Smart Chatbot** powered by OpenAI/Gemini API
-- Real-time sentiment analysis using Django
-- Crisis detection with automatic alerts
-- Available in Hindi and English
-
-### 2. 🔒 Confidential Booking System  
-- Firebase real-time appointment scheduling
-- Anonymous booking options
-- Email notifications via Django
-- Counsellor availability management
-
-### 3. 📚 Psychoeducational Resource Hub
-- Firebase Storage for videos/audio
-- Content management via Django admin
-- Multi-language support
-- Offline-capable Progressive Web App
-
-### 4. 👥 Peer Support Platform
-- Real-time chat using Firebase Realtime Database
-- Moderated by trained volunteers
-- Anonymous participation options
-- Content filtering and reporting
-
-### 5. 📊 Admin Dashboard
-- Firebase Analytics integration
-- Django-powered data insights
-- Real-time mental health trends
-- Automated alert system
-
-## 🛠 Tech Stack
-
-```
-Frontend: React.js + Tailwind CSS + Vite
-Backend: Django + Django REST Framework
-Database: Firebase Firestore + Realtime Database
-Authentication: Firebase Auth + Django JWT
-File Storage: Firebase Storage
-Real-time: Firebase Realtime Database
-AI: OpenAI API / Google Gemini
-Deployment: Vercel (Frontend) + Railway (Backend)
-```
-
-## 🏗 System Architecture
-
-```
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   Student App   │    │  Counsellor     │    │ Admin Dashboard │
-│ React+Tailwind  │    │   Portal        │    │ React+Tailwind  │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
-         │                       │                       │
-         └───────────────────────┼───────────────────────┘
-                                 │
-                    ┌─────────────────┐
-                    │ Django REST API │
-                    │   + Firebase    │
-                    └─────────────────┘
-                                 │
-         ┌──────────────────────┼──────────────────────┐
-         │                      │                      │
-┌─────────────────┐   ┌─────────────────┐   ┌─────────────────┐
-│   Firestore     │   │ Realtime DB     │   │ Firebase Auth   │
-│  (Main Data)    │   │   (Chat)        │   │   (Users)       │
-└─────────────────┘   └─────────────────┘   └─────────────────┘
-```
-
-## 📁 Project Structure
-
-```
-mindcare-campus/
-├── frontend/                   # React + Tailwind
-│   ├── src/
-│   │   ├── components/        # Reusable UI components
-│   │   ├── pages/            # Main application pages
-│   │   ├── hooks/            # Custom React hooks
-│   │   ├── services/         # Firebase & API services
-│   │   ├── utils/            # Helper functions
-│   │   └── styles/           # Tailwind configurations
-│   ├── public/
-│   ├── tailwind.config.js
-│   └── vite.config.js
-├── backend/                   # Django Project
-│   ├── mindcare/             # Main Django app
-│   │   ├── models.py         # Data models
-│   │   ├── views.py          # API views
-│   │   ├── serializers.py    # DRF serializers
-│   │   ├── urls.py           # URL patterns
-│   │   └── utils.py          # Helper functions
-│   ├── config/               # Django settings
-│   ├── requirements.txt
-│   └── manage.py
-├── firebase/                 # Firebase configuration
-│   ├── firestore.rules
-│   ├── storage.rules
-│   └── firebase.json
-└── docs/                     # Documentation
-```
-
-## 🔥 Firebase Database Structure
-
-### Firestore Collections
-
-#### Users Collection
-```javascript
-// /users/{userId}
-{
-  uid: "firebase_auth_uid",
-  email: "student@college.edu",
-  role: "student" | "counsellor" | "admin",
-  profile: {
-    name: "Anonymous User",
-    college: "ABC College",
-    department: "Computer Science",
-    year: 3,
-    isAnonymous: true,
-    language: "en" | "hi"
-  },
-  mentalHealth: {
-    phq9Score: 8,
-    gad7Score: 12,
-    lastAssessment: timestamp,
-    riskLevel: "medium",
-    assessmentHistory: []
-  },
-  createdAt: timestamp,
-  updatedAt: timestamp
-}
-```
-
-#### Appointments Collection
-```javascript
-// /appointments/{appointmentId}
-{
-  id: "auto_generated_id",
-  studentId: "user_uid",
-  counsellorId: "counsellor_uid", 
-  dateTime: timestamp,
-  duration: 60, // minutes
-  status: "scheduled" | "completed" | "cancelled",
-  isAnonymous: true,
-  meetingLink: "https://meet.google.com/xxx",
-  notes: "Session notes here",
-  createdAt: timestamp
-}
-```
-
-#### Chat Sessions (Realtime Database)
-```javascript
-// /chatSessions/{sessionId}
-{
-  userId: "user_uid",
-  messages: {
-    "msg1": {
-      sender: "user" | "bot",
-      message: "I'm feeling anxious about exams",
-      timestamp: timestamp,
-      sentiment: -0.3,
-      riskScore: 0.2
-    }
-  },
-  sessionSummary: "User discussing exam anxiety",
-  riskFlags: ["anxiety", "stress"],
-  isActive: true,
-  createdAt: timestamp
-}
-```
-
-#### Resources Collection
-```javascript
-// /resources/{resourceId}
-{
-  id: "auto_generated_id",
-  title: "Managing Exam Stress",
-  description: "Helpful techniques for students",
-  type: "video" | "audio" | "article" | "pdf",
-  url: "firebase_storage_url",
-  language: "en" | "hi",
-  category: "stress" | "anxiety" | "depression" | "relationships",
-  tags: ["exam", "stress", "coping"],
-  views: 150,
-  likes: 23,
-  createdAt: timestamp
-}
-```
-
-## 🚀 Development Roadmap (6 Weeks)
-
-### Week 1: Setup & Authentication
-**Goals**: Project setup and user authentication
-- [ ] Initialize React project with Vite + Tailwind
-- [ ] Setup Django project with DRF
-- [ ] Configure Firebase (Auth, Firestore, Storage)
-- [ ] Implement user registration/login
-- [ ] Basic responsive UI with Tailwind
-
-**Deliverables**: Users can register and login with Firebase Auth
-
-### Week 2: Mental Health Assessment
-**Goals**: Core assessment and basic chatbot
-- [ ] Create PHQ-9 and GAD-7 forms in React
-- [ ] Django models for assessment data
-- [ ] Firebase Firestore integration
-- [ ] Basic AI chatbot with OpenAI API
-- [ ] Responsive assessment UI
-
-**Deliverables**: Students can take mental health assessments
-
-### Week 3: Booking System
-**Goals**: Appointment scheduling system
-- [ ] Counsellor availability management
-- [ ] Real-time appointment booking
-- [ ] Email notifications via Django
-- [ ] Calendar integration
-- [ ] Booking management UI
-
-**Deliverables**: Complete appointment booking workflow
-
-### Week 4: Resources & Peer Support
-**Goals**: Content library and peer platform
-- [ ] File upload to Firebase Storage
-- [ ] Resource management system
-- [ ] Real-time peer chat (Firebase Realtime DB)
-- [ ] Moderation tools
-- [ ] Content browsing UI
-
-**Deliverables**: Resource library and peer support functional
-
-### Week 5: Admin Dashboard
-**Goals**: Analytics and administration
-- [ ] Django admin customization
-- [ ] Firebase Analytics integration
-- [ ] Data visualization with Chart.js
-- [ ] Alert system for high-risk users
-- [ ] Admin dashboard UI
-
-**Deliverables**: Complete admin functionality
-
-### Week 6: Testing & Deployment
-**Goals**: Final testing and deployment
-- [ ] Cross-browser testing
-- [ ] Mobile responsiveness testing
-- [ ] Security testing
-- [ ] Performance optimization
-- [ ] Deploy to Vercel + Railway
-
-**Final Deliverable**: Fully deployed application
-
-## ⚙️ Quick Setup Guide
+## 🚀 Quick Start
 
 ### Prerequisites
-```bash
-Python 3.9+
-Node.js 18+
-Firebase CLI
-Git
+- Node.js 18+ 
+- npm or pnpm
+- Git
+
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/yourusername/mindcare-campus.git
+   cd mindcare-campus
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   # or
+   pnpm install
+   ```
+
+3. **Set up environment variables**
+   ```bash
+   cp .env.example .env.local
+   ```
+   
+   Edit `.env.local` and add your Firebase configuration:
+   ```env
+   VITE_FIREBASE_API_KEY=your_api_key
+   VITE_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
+   VITE_FIREBASE_PROJECT_ID=your_project_id
+   VITE_FIREBASE_STORAGE_BUCKET=your_project.appspot.com
+   VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+   VITE_FIREBASE_APP_ID=your_app_id
+   ```
+
+4. **Start the development server**
+   ```bash
+   npm run dev
+   # or
+   pnpm dev
+   ```
+
+5. **Open your browser**
+   Navigate to `http://localhost:5173`
+
+## 🔧 Development
+
+### Available Scripts
+
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run preview` - Preview production build
+- `npm run lint` - Run ESLint
+
+### Project Structure
+
+```
+src/
+├── components/          # Reusable UI components
+│   ├── auth/           # Authentication components
+│   ├── common/         # Common components (Header, Footer, etc.)
+│   └── ui/             # Shadcn/ui components
+├── hooks/              # Custom React hooks
+├── lib/                # Utility functions
+├── pages/              # Page components
+├── services/           # API and external services
+├── types/              # TypeScript type definitions
+└── main.tsx           # Application entry point
 ```
 
-### Backend Setup (Django)
-```bash
-# Clone and setup backend
-git clone https://github.com/your-team/mindcare-campus.git
-cd mindcare-campus/backend
+### Technology Stack
 
-# Create virtual environment
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+- **Frontend**: React 19, TypeScript, Vite
+- **Styling**: Tailwind CSS, Shadcn/ui
+- **State Management**: React Query, Zustand
+- **Authentication**: Firebase Auth (with mock fallback)
+- **Database**: Firebase Firestore
+- **Routing**: React Router v6
+- **Forms**: React Hook Form, Zod validation
+- **Charts**: Recharts
+- **Icons**: Lucide React
 
-# Install dependencies
-pip install -r requirements.txt
+## 🔐 Authentication
 
-# Environment setup
-cp .env.example .env
-# Add Firebase service account key, OpenAI API key, etc.
+The app supports two authentication modes:
 
-# Run migrations
-python manage.py migrate
+### 1. Firebase Authentication (Production)
+Configure your Firebase project and add the credentials to `.env.local`
 
-# Start development server
-python manage.py runserver
-```
+### 2. Mock Authentication (Development)
+When Firebase is not configured, the app automatically uses mock authentication with these test accounts:
 
-### Frontend Setup (React + Tailwind)
-```bash
-# Setup frontend
-cd ../frontend
+- **Student**: `test@mindcare.com` / `password123`
+- **Admin**: `admin@mindcare.com` / `password123`
+- **Anonymous**: Available for privacy-focused users
 
-# Install dependencies
-npm install
+## 🎨 UI Components
 
-# Environment setup
-cp .env.example .env
-# Add Firebase config
+Built with Shadcn/ui components for a modern, accessible design:
 
-# Start development server
-npm run dev
-```
+- **Forms**: Input, Select, Checkbox, Radio Group
+- **Navigation**: Tabs, Breadcrumb, Navigation Menu
+- **Feedback**: Alert, Toast, Progress, Skeleton
+- **Layout**: Card, Sheet, Dialog, Accordion
+- **Data Display**: Table, Badge, Avatar, Calendar
 
-### Firebase Setup
-```bash
-# Install Firebase CLI
-npm install -g firebase-tools
+## 📱 Responsive Design
 
-# Login to Firebase
-firebase login
+The app is fully responsive and optimized for:
+- **Mobile**: 320px - 768px
+- **Tablet**: 768px - 1024px
+- **Desktop**: 1024px+
 
-# Initialize Firebase in project
-firebase init
-```
+## 🔒 Privacy & Security
 
-## 🎨 Frontend with Tailwind CSS
-
-### Component Examples
-
-#### Mental Health Assessment Card
-```jsx
-const AssessmentCard = ({ title, description, onStart }) => (
-  <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100 hover:shadow-xl transition-shadow">
-    <div className="flex items-center mb-4">
-      <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-        <svg className="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
-          {/* Icon */}
-        </svg>
-      </div>
-      <h3 className="ml-4 text-xl font-semibold text-gray-800">{title}</h3>
-    </div>
-    <p className="text-gray-600 mb-4">{description}</p>
-    <button 
-      onClick={onStart}
-      className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium"
-    >
-      Start Assessment
-    </button>
-  </div>
-);
-```
-
-#### Chat Interface
-```jsx
-const ChatMessage = ({ message, sender, timestamp }) => (
-  <div className={`flex ${sender === 'user' ? 'justify-end' : 'justify-start'} mb-4`}>
-    <div className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
-      sender === 'user' 
-        ? 'bg-blue-600 text-white' 
-        : 'bg-gray-200 text-gray-800'
-    }`}>
-      <p className="text-sm">{message}</p>
-      <span className="text-xs opacity-75">{timestamp}</span>
-    </div>
-  </div>
-);
-```
-
-### Tailwind Color Scheme
-```javascript
-// tailwind.config.js
-module.exports = {
-  theme: {
-    extend: {
-      colors: {
-        primary: {
-          50: '#eff6ff',
-          500: '#3b82f6',
-          600: '#2563eb',
-          700: '#1d4ed8'
-        },
-        mental: {
-          calm: '#10b981',     // Green for positive
-          warning: '#f59e0b',  // Yellow for moderate
-          danger: '#ef4444'    // Red for high risk
-        }
-      }
-    }
-  }
-}
-```
-
-## 🔧 Django Backend Structure
-
-### Models Example
-```python
-# models.py
-from django.db import models
-from django.contrib.auth.models import User
-
-class MentalHealthAssessment(models.Model):
-    RISK_LEVELS = [
-        ('low', 'Low Risk'),
-        ('medium', 'Medium Risk'), 
-        ('high', 'High Risk')
-    ]
-    
-    user_id = models.CharField(max_length=255)  # Firebase UID
-    phq9_score = models.IntegerField()
-    gad7_score = models.IntegerField()
-    risk_level = models.CharField(max_length=10, choices=RISK_LEVELS)
-    assessment_date = models.DateTimeField(auto_now_add=True)
-    
-    class Meta:
-        db_table = 'mental_health_assessments'
-
-class ChatSession(models.Model):
-    user_id = models.CharField(max_length=255)
-    session_summary = models.TextField()
-    risk_flags = models.JSONField(default=list)
-    sentiment_score = models.FloatField()
-    created_at = models.DateTimeField(auto_now_add=True)
-```
-
-### API Views Example
-```python
-# views.py
-from rest_framework import status
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from .serializers import AssessmentSerializer
-
-@api_view(['POST'])
-def submit_assessment(request):
-    serializer = AssessmentSerializer(data=request.data)
-    if serializer.is_valid():
-        # Calculate risk level
-        phq9 = serializer.validated_data['phq9_score']
-        gad7 = serializer.validated_data['gad7_score']
-        
-        risk_level = calculate_risk_level(phq9, gad7)
-        serializer.validated_data['risk_level'] = risk_level
-        
-        # Save to Firebase via Django
-        assessment = serializer.save()
-        
-        # Trigger alerts if high risk
-        if risk_level == 'high':
-            send_alert_to_counsellors(assessment)
-            
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-```
-
-## 🔥 Firebase Integration
-
-### Firebase Config (React)
-```javascript
-// src/services/firebase.js
-import { initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore';
-import { getStorage } from 'firebase/storage';
-import { getDatabase } from 'firebase/database';
-
-const firebaseConfig = {
-  apiKey: process.env.VITE_FIREBASE_API_KEY,
-  authDomain: process.env.VITE_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.VITE_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.VITE_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.VITE_FIREBASE_APP_ID
-};
-
-const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
-export const db = getFirestore(app);
-export const storage = getStorage(app);
-export const realtimeDb = getDatabase(app);
-```
-
-### Firebase Service Functions
-```javascript
-// src/services/firestore.js
-import { doc, setDoc, getDoc, collection, addDoc } from 'firebase/firestore';
-import { db } from './firebase';
-
-export const saveUserProfile = async (uid, profileData) => {
-  try {
-    await setDoc(doc(db, 'users', uid), {
-      ...profileData,
-      createdAt: new Date(),
-      updatedAt: new Date()
-    });
-    return true;
-  } catch (error) {
-    console.error('Error saving profile:', error);
-    return false;
-  }
-};
-
-export const bookAppointment = async (appointmentData) => {
-  try {
-    const docRef = await addDoc(collection(db, 'appointments'), {
-      ...appointmentData,
-      createdAt: new Date()
-    });
-    return docRef.id;
-  } catch (error) {
-    console.error('Error booking appointment:', error);
-    return null;
-  }
-};
-```
-
-## 📱 Key Pages & Components
-
-### Student Dashboard
-```jsx
-const StudentDashboard = () => {
-  return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 py-6">
-          <h1 className="text-3xl font-bold text-gray-900">
-            Welcome to MindCare Campus
-          </h1>
-        </div>
-      </header>
-      
-      {/* Quick Actions */}
-      <div className="max-w-7xl mx-auto px-4 py-8">
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <QuickActionCard 
-            title="Chat with AI" 
-            icon="🤖" 
-            bgColor="bg-blue-500" 
-          />
-          <QuickActionCard 
-            title="Book Appointment" 
-            icon="📅" 
-            bgColor="bg-green-500" 
-          />
-          <QuickActionCard 
-            title="Resources" 
-            icon="📚" 
-            bgColor="bg-purple-500" 
-          />
-          <QuickActionCard 
-            title="Peer Support" 
-            icon="👥" 
-            bgColor="bg-orange-500" 
-          />
-        </div>
-      </div>
-    </div>
-  );
-};
-```
-
-## 🧪 Testing Strategy
-
-### Frontend Testing (React)
-```bash
-# Install testing dependencies
-npm install --save-dev @testing-library/react @testing-library/jest-dom vitest
-
-# Run tests
-npm run test
-```
-
-### Backend Testing (Django)
-```python
-# tests.py
-from django.test import TestCase
-from rest_framework.test import APITestCase
-from .models import MentalHealthAssessment
-
-class AssessmentAPITest(APITestCase):
-    def test_submit_assessment(self):
-        data = {
-            'user_id': 'test_uid',
-            'phq9_score': 8,
-            'gad7_score': 6
-        }
-        response = self.client.post('/api/assessments/', data)
-        self.assertEqual(response.status_code, 201)
-```
+- **Data Encryption**: All sensitive data is encrypted
+- **Anonymous Mode**: Users can interact without revealing identity
+- **Privacy Settings**: Granular control over data sharing
+- **Secure Authentication**: Firebase Auth with additional security measures
+- **Crisis Intervention**: Automatic flagging of high-risk situations
 
 ## 🚀 Deployment
 
-### Frontend (Vercel)
-```bash
-# Install Vercel CLI
-npm install -g vercel
+### Vercel (Recommended)
+1. Connect your GitHub repository to Vercel
+2. Add environment variables in Vercel dashboard
+3. Deploy automatically on push to main branch
 
-# Deploy
-cd frontend
-vercel --prod
-```
+### Netlify
+1. Build the project: `npm run build`
+2. Deploy the `dist` folder to Netlify
+3. Add environment variables in Netlify dashboard
 
-### Backend (Railway)
-```bash
-# Install Railway CLI
-npm install -g @railway/cli
+### Firebase Hosting
+1. Install Firebase CLI: `npm install -g firebase-tools`
+2. Login: `firebase login`
+3. Initialize: `firebase init hosting`
+4. Deploy: `firebase deploy`
 
-# Deploy
-cd backend  
-railway login
-railway deploy
-```
+## 🤝 Contributing
 
-### Firebase Deployment
-```bash
-# Deploy Firestore rules and cloud functions
-firebase deploy
-```
+We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details.
 
-## 📊 Expected Outcomes
+### Development Workflow
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/amazing-feature`
+3. Commit your changes: `git commit -m 'Add amazing feature'`
+4. Push to the branch: `git push origin feature/amazing-feature`
+5. Open a Pull Request
 
-### Technical Achievements
-- ✅ Modern, responsive web application
-- ✅ Real-time chat and notifications
-- ✅ Scalable Firebase infrastructure
-- ✅ AI-powered mental health support
-- ✅ Anonymous and secure system
+## 📄 License
 
-### Social Impact
-- ✅ 24/7 mental health support access
-- ✅ Reduced stigma through anonymity
-- ✅ Early intervention capabilities
-- ✅ Data-driven college policies
-- ✅ Peer community building
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🏆 SIH Presentation Highlights
+## 🆘 Support
 
-### Innovation Points
-- **Modern Tech Stack**: Django + Firebase + React + Tailwind
-- **Real-time Features**: Live chat and notifications
-- **AI Integration**: Smart chatbot with crisis detection
-- **Mobile-First Design**: Responsive across all devices
-- **Scalable Architecture**: Can handle thousands of users
+- **Documentation**: [Wiki](https://github.com/yourusername/mindcare-campus/wiki)
+- **Issues**: [GitHub Issues](https://github.com/yourusername/mindcare-campus/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/yourusername/mindcare-campus/discussions)
 
-### Problem-Solution Fit
-- ✅ **AI-guided first-aid**: Smart chatbot with sentiment analysis
-- ✅ **Confidential booking**: Firebase-powered anonymous appointments
-- ✅ **Educational resources**: Multi-media content library
-- ✅ **Peer support**: Real-time moderated chat platform
-- ✅ **Admin analytics**: Comprehensive dashboard with insights
+## 🙏 Acknowledgments
 
-## 🤝 Team Allocation
+- [Shadcn/ui](https://ui.shadcn.com/) for the beautiful component library
+- [Tailwind CSS](https://tailwindcss.com/) for the utility-first CSS framework
+- [Firebase](https://firebase.google.com/) for authentication and database services
+- [React](https://reactjs.org/) for the amazing frontend framework
 
-1. **Team Lead**: Project coordination + Django backend
-2. **Frontend Developer**: React + Tailwind UI/UX
-3. **Firebase Developer**: Database design + real-time features
-4. **AI/ML Developer**: Chatbot + sentiment analysis
-5. **Mobile Developer**: PWA optimization + responsive design
-6. **Testing & DevOps**: Quality assurance + deployment
+## 📊 Project Status
 
-## 📞 Resources & Links
-
-### Documentation
-- [Django REST Framework](https://www.django-rest-framework.org/)
-- [Firebase Documentation](https://firebase.google.com/docs)
-- [React Documentation](https://react.dev/)
-- [Tailwind CSS](https://tailwindcss.com/docs)
-
-### APIs & Services
-- [OpenAI API](https://platform.openai.com/docs)
-- [Google Gemini API](https://ai.google.dev/)
-- [EmailJS](https://www.emailjs.com/) for notifications
+![GitHub last commit](https://img.shields.io/github/last-commit/yourusername/mindcare-campus)
+![GitHub issues](https://img.shields.io/github/issues/yourusername/mindcare-campus)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/yourusername/mindcare-campus)
+![GitHub stars](https://img.shields.io/github/stars/yourusername/mindcare-campus)
 
 ---
 
-## 🎯 Success Metrics
-
-- **User Engagement**: 80%+ students complete assessment
-- **Response Time**: <2 seconds for all API calls
-- **Availability**: 99.9% uptime for critical features
-- **Privacy**: Zero data breaches or privacy violations
-- **Impact**: Measurable improvement in student mental health
-
-**Ready to revolutionize college mental health support! 🚀**
-
-**#SIH2024 #MentalHealth #Django #Firebase #React #TailwindCSS**
+**Made with ❤️ for student mental health and wellness**
