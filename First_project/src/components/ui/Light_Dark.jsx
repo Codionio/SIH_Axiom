@@ -1,27 +1,23 @@
 import React from 'react'
-const Light_Dark = (dets) => {
-const root = window.document.documentElement;
-  let toggletheme = ()=> {
-    if(dets.toggle === true){
-        root.classList.add('dark');
-        dets.setToggle(false);
-    }
-    else{
-        root.classList.remove('dark');
-        dets.setToggle(true);
-    }
-  }
-  return (
-    <>
-     <button
-            onClick={toggletheme}
-            className="p-2 rounded-lg active:scale-90 "
-            aria-label="Toggle theme"
-          >
-            {dets.toggle ? '☀️' : '🌙'}
-    </button>
-    </>
-  )
-}
+import { useTheme } from '../../contexts/ThemeContext'
 
-export default Light_Dark
+const Light_Dark = () => {
+  const { isDark, toggleTheme } = useTheme();
+  const root = window.document.documentElement;
+
+  const handleToggle = () => {
+    toggleTheme();
+  };
+
+  return (
+    <button
+      onClick={handleToggle}
+      className="p-2 rounded-lg active:scale-90"
+      aria-label="Toggle theme"
+    >
+      {isDark ? '🌙' : '☀️'}
+    </button>
+  );
+};
+
+export default Light_Dark;

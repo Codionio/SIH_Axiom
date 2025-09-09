@@ -3,9 +3,8 @@ import { NavLink, Link, useNavigate } from 'react-router-dom';
 import { FaUserCircle } from 'react-icons/fa';
 import { BsBarChartLineFill, BsPerson, BsChatDots, BsCalendarEvent, BsBook } from 'react-icons/bs';
 import Light_Dark from './ui/Light_Dark';
-import { HiMenu, HiX } from 'react-icons/hi'; // Make sure you have these icons
-import MobileMenu from './MobileMenu'; // Import the new component
-
+import { HiMenu, HiX } from 'react-icons/hi';
+import MobileMenu from './MobileMenu';
 
 // This is the dropdown menu that appears when the user is logged in.
 const ProfileDropdown = ({ user, onLogout }) => {
@@ -13,7 +12,7 @@ const ProfileDropdown = ({ user, onLogout }) => {
   const navigate = useNavigate();
   const handleLogoutClick = () => {
     onLogout(); // This function comes from App.js to clear the user state
-    navigate('/login'); // Redirect to login page after logging out
+    navigate('/'); // Redirect to login page after logging out
     setIsOpen(false); // Close the dropdown
   };
 
@@ -59,7 +58,7 @@ const ProfileDropdown = ({ user, onLogout }) => {
 };
 
 // Main Navbar Component
-const Navbar = ({ user, onLogout, toggle, setToggle }) => {
+const Navbar = ({ user, onLogout }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navItems = [
     { name: 'Dashboard', path: '/dashboard', icon: <BsBarChartLineFill /> },
@@ -117,7 +116,7 @@ const Navbar = ({ user, onLogout, toggle, setToggle }) => {
           </button>
             </div>
             <ProfileDropdown user={user} onLogout={onLogout} />
-            <Light_Dark toggle={toggle} setToggle={setToggle} />
+            <Light_Dark />
             </>
           ) : (
             <div className="hidden items-center space-x-2 md:flex">
@@ -127,6 +126,7 @@ const Navbar = ({ user, onLogout, toggle, setToggle }) => {
               <Link to="/register" className="rounded-lg bg-indigo-600 px-5 py-2 text-sm font-medium text-white transition-colors hover:bg-indigo-500">
                 Register
               </Link>
+              <Light_Dark />
             </div>
           )}
         </div>
