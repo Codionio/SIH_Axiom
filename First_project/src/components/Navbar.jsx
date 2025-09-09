@@ -1,110 +1,144 @@
 import React, { useState } from 'react';
-import Light_Dark from './ui/Light_Dark.jsx'
-// Import all necessary icons
+import { NavLink, Link, useNavigate } from 'react-router-dom';
 import { FaUserCircle } from 'react-icons/fa';
 import { BsBarChartLineFill, BsPerson, BsChatDots, BsCalendarEvent, BsBook } from 'react-icons/bs';
+import Light_Dark from './ui/Light_Dark';
+import { HiMenu, HiX } from 'react-icons/hi'; // Make sure you have these icons
+import MobileMenu from './MobileMenu'; // Import the new component
 
-// --- Placeholder for your Light/Dark mode toggle component ---
-// const Light_Dark = ({ toggle, setToggle }) => {
-//   return (
-//     <button
-//       onClick={() => setToggle(!toggle)}
-//       className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-200 text-slate-800 transition-colors dark:bg-slate-800 dark:text-slate-200"
-//     >
-//       {toggle ? '🌙' : '☀️'}
-//     </button>
-//   );
-// };
 
-// --- Integrated Navigation Component (for logged-in users) ---
-const navItems = [
-  { name: 'Dashboard', icon: <BsBarChartLineFill /> },
-  { name: 'Assessment', icon: <BsPerson /> },
-  { name: 'Chat', icon: <BsChatDots /> },
-  { name: 'Appointments', icon: <BsCalendarEvent /> },
-  { name: 'Resources', icon: <BsBook /> },
-];
+// This is the dropdown menu that appears when the user is logged in.
+const ProfileDropdown = ({ user, onLogout }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
+  const handleLogoutClick = () => {
+    onLogout(); // This function comes from App.js to clear the user state
+    navigate('/login'); // Redirect to login page after logging out
+    setIsOpen(false); // Close the dropdown
+  };
 
-const DashboardNav = () => {
-  const [activeItem, setActiveItem] = useState('Dashboard');
+  const avatarLetter = user?.name ? user.name.charAt(0).toUpperCase() : 'A';
 
   return (
-    // The outer container is now just a flexbox, with no background or border.
-    <div className="flex items-center gap-2">
-      {navItems.map((item) => (
-        <a
-          href={`#${item.name.toLowerCase()}`}
-          key={item.name}
-          onClick={() => setActiveItem(item.name)}
-          className={`
-            flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium
-            transition-colors duration-200 ease-in-out
-            ${
-              activeItem === item.name
-                ? 'bg-indigo-100 text-indigo-600 dark:bg-indigo-500/20 dark:text-indigo-300' // Active state styles
-                : 'text-slate-600 hover:bg-slate-200/60 dark:text-slate-400 dark:hover:bg-slate-800' // Inactive state styles
-            }
-          `}
+    <div className="relative">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        onBlur={() => setIsOpen(false)} // Close dropdown when clicking away
+        className="flex h-9 w-9 items-center justify-center rounded-full bg-indigo-600 text-sm font-semibold text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:bg-indigo-500"
+      >
+        {avatarLetter}
+      </button>
+
+      {/* Dropdown Menu */}
+      {isOpen && (
+        <div
+          // Prevent onBlur from closing the menu when clicking inside it
+          onMouseDown={(e) => e.preventDefault()}
+          className="absolute right-0 mt-2 w-56 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 dark:bg-slate-800"
         >
-          <span className="text-base">{item.icon}</span>
-          <span>{item.name}</span>
-        </a>
-      ))}
+          <div className="border-b border-slate-200 px-4 py-3 dark:border-slate-700">
+            <p className="truncate text-sm font-medium text-slate-900 dark:text-white">{user.name}</p>
+            <p className="truncate text-sm text-slate-500 dark:text-slate-400">{user.email}</p>
+          </div>
+          <div className="py-1">
+            <Link to="/profile" className="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-700">Profile</Link>
+            <Link to="/settings" className="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-700">Settings</Link>
+          </div>
+          <div className="py-1">
+            <button
+              onClick={handleLogoutClick}
+              className="block w-full px-4 py-2 text-left text-sm text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-700"
+            >
+              Log out
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
-// --- Your Main Navbar Component (Updated) ---
-const Navbar = (props) => {
-  
-  const toggleLogin = () => {
-    props.setlogin(!props.islogin);
-  };
+// Main Navbar Component
+const Navbar = ({ user, onLogout, toggle, setToggle }) => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const navItems = [
+    { name: 'Dashboard', path: '/dashboard', icon: <BsBarChartLineFill /> },
+    { name: 'Assessment', path: '/assessment', icon: <BsPerson /> },
+    { name: 'Chat', path: '/chat', icon: <BsChatDots /> },
+    { name: 'Appointments', path: '/appointments', icon: <BsCalendarEvent /> },
+    { name: 'Resources', path: '/resources', icon: <BsBook /> },
+  ];
 
   return (
-    <nav className="sticky top-0 z-50 border-b border-slate-200 bg-white/80 backdrop-blur-lg transition-colors duration-300 dark:border-slate-800 dark:bg-slate-900/80">
-      <div className="container mx-auto flex items-center justify-between px-6 py-2.5">
-        {/* Left Side: Logo and Brand */}
-        <div className='flex items-center gap-2'>
-          <img src="/logo.png" alt="Saarthi Logo" className='h-9' />
-          <a href="/" className="text-2xl font-bold text-slate-800 dark:text-slate-200">
-            saarthi
-          </a>
-        </div>
+    <nav className="sticky top-0 z-50 border-b border-slate-200 bg-white/80 backdrop-blur-lg dark:border-slate-800 dark:bg-slate-900/80">
+      <div className="container mx-auto flex items-center justify-between px-6 py-2.5 ">
+        {/* Left Side: Logo */}
+        <Link to={user ? "/dashboard" : "/"} className="flex items-center gap-2">
+          <img src="/public/logo.png" alt="Saarthi Logo" className="h-9" />
+          <span className="text-2xl font-bold text-slate-800 dark:text-slate-200">saarthi</span>
+        </Link>
 
-        {/* Middle: Navigation Links (only when logged in) */}
-        { props.islogin && (
-          <div className="hidden md:flex">
-            <DashboardNav />
+        {/* Middle: Logged-in navigation */}
+        {user && (
+          <div className="hidden items-center gap-2 md:hidden sm:hidden lg:flex">
+            {navItems.map((item) => (
+              <NavLink
+                key={item.name}
+                to={item.path}
+                className={({ isActive }) =>
+                  `flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors ${isActive
+                    ? 'bg-indigo-100 text-indigo-600 dark:bg-indigo-900/40 dark:text-indigo-300'
+                    : 'text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800'
+                  }`
+                }
+              >
+                <span className="text-base">{item.icon}</span>
+                <span>{item.name}</span>
+              </NavLink>
+            ))}
           </div>
         )}
 
-        {/* Right Side: Actions and Toggles */}
+        {/* Right Side: Actions */}
         <div className="flex items-center space-x-4">
-          {props.islogin ? (
-            // Show profile icon if logged in
-            <a href="#profile" className="text-slate-500 transition-colors hover:text-indigo-600 dark:text-slate-400 dark:hover:text-indigo-400">
-              <FaUserCircle size={24} />
-            </a>
+          {user ? (
+            <>
+            <div className="flex items-center md:flex lg:hidden">
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="inline-flex items-center justify-center rounded-md p-2 text-slate-600 hover:bg-slate-100 focus:outline-none dark:text-slate-300 dark:hover:bg-slate-800"
+          >
+            <span className="sr-only">Open main menu</span>
+            {isMenuOpen ? (
+              <HiX className="h-6 w-6" />
+            ) : (
+              <HiMenu className="h-6 w-6" />
+            )}
+          </button>
+            </div>
+            <ProfileDropdown user={user} onLogout={onLogout} />
+            <Light_Dark toggle={toggle} setToggle={setToggle} />
+            </>
           ) : (
-            // Show Login/Register buttons if not logged in
             <div className="hidden items-center space-x-2 md:flex">
-              <button
-                onClick={toggleLogin}
-                className="rounded-lg px-5 py-2 text-sm font-medium text-slate-800 transition-colors hover:bg-slate-200/60 active:scale-95 dark:text-slate-200 dark:hover:bg-slate-800"
-              >
+              <Link to="/login" className="rounded-lg px-5 py-2 text-sm font-medium text-slate-800 transition-colors hover:bg-slate-200/60 dark:text-slate-200 dark:hover:bg-slate-800">
                 Login
-              </button>
-              <button className="rounded-lg bg-indigo-600 px-5 py-2 text-sm font-medium text-white transition-colors hover:bg-indigo-500 active:scale-95 dark:bg-indigo-500 dark:hover:bg-indigo-400">
+              </Link>
+              <Link to="/register" className="rounded-lg bg-indigo-600 px-5 py-2 text-sm font-medium text-white transition-colors hover:bg-indigo-500">
                 Register
-              </button>
+              </Link>
             </div>
           )}
-          
-          {/* Light/Dark Mode Toggle */}
-          <Light_Dark toggle={props.toggle} setToggle={props.setToggle}/>
         </div>
+
+        {/* <Light_Dark toggle={toggle} setToggle={setToggle} /> */}
       </div>
+      <MobileMenu
+        isOpen={isMenuOpen}
+        user={user}
+        navItems={navItems}
+        onClose={() => setIsMenuOpen(false)}
+      />
     </nav>
   );
 };

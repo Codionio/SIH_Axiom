@@ -5,7 +5,7 @@ import { BsShieldFillCheck } from 'react-icons/bs';
 
 const Footer = () => {
     return (
-        <footer className="absolute bottom-0 bg-white text-slate-700 dark:bg-slate-900 dark:text-slate-300 w-[100%] ">
+        <footer className=" bg-white text-slate-700 dark:bg-slate-900 dark:text-slate-300 w-[100%] ">
             <div className="container  px-6 py-12 w-[100%]">
     
                 <div className="grid grid-cols-1 gap-20  md:grid-cols-3 lg:grid-cols-3 w-[100%]">
