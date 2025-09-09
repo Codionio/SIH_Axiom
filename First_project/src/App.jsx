@@ -43,7 +43,7 @@ function App() {
             <Route index element={<LandingPage />} />
             <Route path="login" element={<LoginPage onLogin={handleLogin} />} />
             {/* <Route path="register" element={<RegisterPage />} /> */}
-            
+
             {/* Protected Routes: Accessible only when logged in */}
             <Route
               path="dashboard"
