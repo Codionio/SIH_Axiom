@@ -1,18 +1,21 @@
-import React, { useState } from 'react';
-import Navbar from './components/Navbar';
-import { ThemeProvider } from './contexts/ThemeContext';
+import React from 'react'
+import LandingPage from './pages/LandingPage'
+import Login from './pages/Login';
+import Newuser from './pages/Newuser'
+import Navbar from './components/Navbar'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-function App() {
-  const [login, setlogin] = useState(false)
-  const [ isDark, setIsDark ] = useState(true);
+const App = () => {
   return (
-    <>
-    <main className=' w-full h-[100vh]'>
-      <Navbar islogin = {login} setlogin = {setlogin} toggle = {isDark} setToggle = {setIsDark}/>
-    </main>
-    </>
-    
-  );
+  <BrowserRouter>
+      <Routes>
+        <Route element={<Navbar />} />
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Newuser />} />
+      </Routes>
+    </BrowserRouter>
+  )
 }
 
-export default App;
+export default App
