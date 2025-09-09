@@ -1,5 +1,4 @@
 import React from 'react'
-
 const Light_Dark = (dets) => {
 const root = window.document.documentElement;
   let toggletheme = ()=> {
