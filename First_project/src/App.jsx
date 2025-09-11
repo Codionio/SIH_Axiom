@@ -8,6 +8,9 @@ import Login from './pages/Login';
 import Newuser from './pages/Newuser';
 import Dashboard from './pages/Dashboard';
 import Assessment from './pages/Assessment';
+import ChatPage from './pages/ChatPage';
+import AIChatPage from './pages/AIChatPage';
+
 // import RegisterPage from './pages/RegisterPage'; // If you have one
 // import ProfilePage from './pages/ProfilePage';   // If you have one
 
@@ -58,11 +61,20 @@ function App() {
               element={user ? <ProfilePage user={user} /> : <Navigate to="/login" />}
             /> */}
           <Route
-          path="assessment" // This is the main assessment page
-          element={user ? <Assessment /> : <Navigate to="/login" />}
-        />
+            path="assessment" // This is the main assessment page
+            element={user ? <Assessment /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="chat"
+            element={user ? <ChatPage /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="chatbot"
+            element={user ? <AIChatPage /> : <Navigate to="/login" />}
+          />
         </Route>
-        
+          
+
       </Routes>
     </BrowserRouter>
   );

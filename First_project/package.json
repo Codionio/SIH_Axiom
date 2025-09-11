@@ -12,8 +12,12 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
+    "@google/generative-ai": "^0.24.1",
     "@mui/material": "^7.3.2",
     "@tailwindcss/vite": "^4.1.13",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.2",
+    "express": "^5.1.0",
     "firebase": "^12.2.1",
     "icons": "^1.0.0",
     "react": "^19.1.1",
@@ -33,5 +37,10 @@
     "globals": "^16.3.0",
     "rollup": "^4.50.1",
     "vite": "^7.1.2"
-  }
+  },
+  "description": "This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.",
+  "main": "eslint.config.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
