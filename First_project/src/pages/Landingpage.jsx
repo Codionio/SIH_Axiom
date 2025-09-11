@@ -2,6 +2,8 @@ import React from 'react';
 import { FaUserCheck, FaBrain, FaRegComments, FaRegCalendarCheck } from 'react-icons/fa';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import { Link } from "react-router-dom";
+
 
 // In a real app, these props would likely come from a higher-level state management
 const LandingPage = () => {
@@ -109,9 +111,11 @@ const LandingPage = () => {
               <p className="mx-auto mt-4 max-w-2xl text-lg text-slate-600 dark:text-slate-300">
                 Your well-being is a priority. Create your free, confidential account and access the support you deserve.
               </p>
-              <a href="#register" className="mt-8 inline-block rounded-full bg-indigo-600 px-10 py-4 text-lg font-semibold text-white shadow-lg transition-transform hover:scale-105 hover:shadow-xl dark:bg-indigo-500">
+              <Link to="/Newuser">
+              <div className="mt-8 inline-block rounded-full bg-indigo-600 px-10 py-4 text-lg font-semibold text-white shadow-lg transition-transform hover:scale-105 hover:shadow-xl dark:bg-indigo-500">
                 Create My Account
-              </a>
+              </div>
+              </Link>
             </div>
           </section>
         </main>

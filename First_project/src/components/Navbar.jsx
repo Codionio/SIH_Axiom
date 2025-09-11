@@ -5,6 +5,7 @@ import { BsBarChartLineFill, BsPerson, BsChatDots, BsCalendarEvent, BsBook } fro
 import Light_Dark from './ui/Light_Dark';
 import { HiMenu, HiX } from 'react-icons/hi';
 import MobileMenu from './MobileMenu';
+import Newuser from '../pages/Newuser'
 
 // This is the dropdown menu that appears when the user is logged in.
 const ProfileDropdown = ({ user, onLogout }) => {
@@ -123,7 +124,7 @@ const Navbar = ({ user, onLogout }) => {
               <Link to="/login" className="rounded-lg px-5 py-2 text-sm font-medium text-slate-800 transition-colors hover:bg-slate-200/60 dark:text-slate-200 dark:hover:bg-slate-800">
                 Login
               </Link>
-              <Link to="/register" className="rounded-lg bg-indigo-600 px-5 py-2 text-sm font-medium text-white transition-colors hover:bg-indigo-500">
+              <Link to="/Newuser" className="rounded-lg bg-indigo-600 px-5 py-2 text-sm font-medium text-white transition-colors hover:bg-indigo-500">
                 Register
               </Link>
               <Light_Dark />
