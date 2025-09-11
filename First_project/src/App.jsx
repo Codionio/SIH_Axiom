@@ -7,6 +7,7 @@ import LandingPage from './pages/Landingpage';
 import Login from './pages/Login';
 import Newuser from './pages/Newuser';
 import Dashboard from './pages/Dashboard';
+import AdminLogin from './pages/AdminLogin'
 // import RegisterPage from './pages/RegisterPage'; // If you have one
 // import ProfilePage from './pages/ProfilePage';   // If you have one
 
@@ -41,6 +42,8 @@ function App() {
             <Route index element={<LandingPage />} />
             <Route path="login" element={<Login onLogin={handleLogin} />} />
             <Route path="newuser" element={<Newuser />} />
+            <Route path="adminlogin" element={<AdminLogin />} />
+            {/* <Route path="adminlogin" element={<AdminLogin />} /> */}
             {/* <Route path="register" element={<RegisterPage />} /> */}
 
             {/* Protected Routes: Accessible only when logged in */}
