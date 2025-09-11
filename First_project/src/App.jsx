@@ -7,7 +7,7 @@ import LandingPage from './pages/Landingpage';
 import Login from './pages/Login';
 import Newuser from './pages/Newuser';
 import Dashboard from './pages/Dashboard';
-import AdminLogin from './pages/AdminLogin'
+import Assessment from './pages/Assessment';
 // import RegisterPage from './pages/RegisterPage'; // If you have one
 // import ProfilePage from './pages/ProfilePage';   // If you have one
 
@@ -26,45 +26,50 @@ function App() {
   };
 
   return (
-      <BrowserRouter>
-        <Routes>
-          {/* All pages will share the same Layout (Navbar and Footer) */}
-          <Route
-            path="/"
-            element={
-              <Layout
-                user={user}
-                onLogout={handleLogout}
-              />
-            }
-          >
-            {/* Public Routes: Accessible to everyone */}
-            <Route index element={<LandingPage />} />
-            <Route path="login" element={<Login onLogin={handleLogin} />} />
-            <Route path="newuser" element={<Newuser />} />
-            <Route path="adminlogin" element={<AdminLogin />} />
-            {/* <Route path="adminlogin" element={<AdminLogin />} /> */}
-            {/* <Route path="register" element={<RegisterPage />} /> */}
-
-            {/* Protected Routes: Accessible only when logged in */}
-            <Route
-              path="dashboard"
-              element={user ? <Dashboard user={user} /> : <Navigate to="/login" />}
-              // path="/register" element={<Newuser />}
+    <BrowserRouter>
+      <Routes>
+        {/* All pages will share the same Layout (Navbar and Footer) */}
+        <Route
+          path="/"
+          element={
+            <Layout
+              user={user}
+              onLogout={handleLogout}
             />
-            {/* <Route
+          }
+        >
+          {/* Public Routes: Accessible to everyone */}
+          <Route index element={<LandingPage />} />
+          <Route path="login" element={<Login onLogin={handleLogin} />} />
+          <Route path="newuser" element={<Newuser />} />
+          {/* <Route path="register" element={<RegisterPage />} /> */}
+
+          {/* Protected Routes: Accessible only when logged in */}
+          <Route
+            path="dashboard"
+            element={user ? <Dashboard user={user} /> : <Navigate to="/login" />}
+          />
+          {/* <Route
+            path="assessment"
+            element={user ? <Assessment /> : <Navigate to="/login" />}
+          /> */}
+          {/* <Route
               path="profile"
               element={user ? <ProfilePage user={user} /> : <Navigate to="/login" />}
             /> */}
-
-          </Route>
-        </Routes>
-      </BrowserRouter>
+          <Route
+          path="assessment" // This is the main assessment page
+          element={user ? <Assessment /> : <Navigate to="/login" />}
+        />
+        </Route>
+        
+      </Routes>
+    </BrowserRouter>
   );
 }
 
 export default App;
 
 
-{/* <Light_Dark toggle={toggle} setToggle={setToggle} /> */}
+{/* <Light_Dark toggle={toggle} setToggle={setToggle} /> */ }
 // import Light_Dark from './ui/Light_Dark';
