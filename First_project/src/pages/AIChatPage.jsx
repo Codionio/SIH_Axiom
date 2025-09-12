@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { FaHeart, FaPaperPlane, FaRobot, FaPalette, FaBed, FaBook, FaUserFriends } from 'react-icons/fa';
+// Import the Google Generative AI SDK
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
-// --- Memoized Child Components for Performance & Cleanliness ---
+// --- Memoized Child Components (No changes needed here) ---
 
 const ChatHeader = React.memo(() => (
   <header className="flex-shrink-0 flex items-center justify-between border-b border-slate-200 p-4 dark:border-slate-800">
@@ -30,7 +32,7 @@ const ChatBubble = React.memo(({ message, time, sender }) => {
         </div>
       )}
       <div className={`w-full max-w-lg whitespace-pre-wrap rounded-xl p-4 ${isUser ? 'rounded-br-none bg-indigo-600 text-white' : 'rounded-tl-none bg-slate-100 dark:bg-slate-800'}`}>
-        <p className="leading-relaxed text-slate-800 dark:text-slate-200">{message}</p>
+        <p className="leading-relaxed text-slate-800 dark:text-slate-200" dangerouslySetInnerHTML={{ __html: message.replace(/\n/g, '<br />') }}></p>
         {time && <p className="mt-2 text-right text-xs text-slate-400">{time}</p>}
       </div>
     </div>
@@ -78,6 +80,16 @@ const MessageInput = React.memo(({ input, setInput, onSend, isLoading }) => (
   </div>
 ));
 
+
+// Initialize the Gemini API client
+const API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
+if (!API_KEY) {
+  console.error("VITE_GEMINI_API_KEY is not set in environment variables");
+}
+const genAI = new GoogleGenerativeAI(API_KEY);
+const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+
 // --- Main AI Chat Page Component ---
 const AIChatPage = () => {
   const [messages, setMessages] = useState([]);
@@ -85,6 +97,9 @@ const AIChatPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const chatEndRef = useRef(null);
   
+  // Use a ref to store the chat session history
+  const chatSessionRef = useRef(null);
+
   // Static data defined within the component scope
   const topicSuggestions = [
     { icon: <FaPalette />, text: "I've been feeling anxious lately and need some support", color: 'purple' },
@@ -98,44 +113,64 @@ const AIChatPage = () => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  // Set the initial greeting message on component mount
+  // Initialize chat session and set initial greeting
   useEffect(() => {
+    const systemPrompt = "You are a friendly, empathetic, and supportive AI mental health assistant. Your purpose is to listen to users, provide a safe space for them to express their feelings, and offer general, non-prescriptive advice based on cognitive-behavioral therapy (CBT) principles. Do not provide medical diagnoses or prescriptions. Always maintain a calm, understanding, and non-judgmental tone. Keep your responses concise and easy to understand.";
+
+    // Start a new chat session with system prompt in history
+    chatSessionRef.current = model.startChat({
+      history: [
+        {
+          role: 'user',
+          parts: [{ text: systemPrompt }],
+        },
+        {
+          role: 'model',
+          parts: [{ text: 'Understood. I am here to help.' }],
+        },
+      ],
+    });
+
     setMessages([
-      { sender: 'bot', text: "Hello! I'm your mental health support assistant. I'm here to listen, provide support, and help you navigate any challenges you're facing. Everything you share with me is confidential.\n\nHow are you feeling today? What's on your mind?", time: "8:32 AM" },
+      { sender: 'bot', text: "Hello! I'm your mental health support assistant. I'm here to listen, provide support, and help you navigate any challenges you're facing. Everything you share with me is confidential.\n\nHow are you feeling today? What's on your mind?", time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) },
     ]);
   }, []);
 
+  // --- MODIFIED: `handleSend` now calls Gemini API directly ---
   const handleSend = useCallback(async (messageText = input) => {
     if (!messageText.trim() || isLoading) return;
 
-    const newUserMessage = { sender: 'user', text: messageText };
+    const newUserMessage = { sender: 'user', text: messageText, time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) };
     setMessages(prev => [...prev, newUserMessage]);
     setInput('');
     setIsLoading(true);
 
-    // --- API Call Logic ---
-    // This is where you would call your backend API for a real response.
-    // For now, we'll use a placeholder response.
-    setTimeout(() => {
-        setMessages(prev => [...prev, { sender: 'bot', text: "Thank you for sharing that. It's brave of you to open up. Could you tell me more about what's been happening?" }]);
-        setIsLoading(false);
-    }, 1200);
+    try {
+      // Send the message to the Gemini model
+      const chat = chatSessionRef.current;
+      const result = await chat.sendMessage(messageText);
+      const response = await result.response;
+      const botText = response.text();
 
+      setMessages(prev => [...prev, { sender: 'bot', text: botText, time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }]);
+    } catch (error) {
+      console.error("Gemini API call failed:", error);
+      setMessages(prev => [...prev, { sender: 'bot', text: "I'm sorry, but I'm having trouble connecting right now. Please try again in a moment.", time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }]);
+    } finally {
+      setIsLoading(false);
+    }
   }, [input, isLoading]);
-
-  // Only show topic suggestions at the beginning of the conversation
+  
   const showTopicSuggestions = messages.length <= 1;
 
   return (
     <div className="flex h-screen flex-col bg-slate-50 font-sans dark:bg-slate-950">
       <ChatHeader />
-
       <div className="flex-grow overflow-y-auto p-4 sm:p-6">
         <div className="mx-auto max-w-4xl space-y-8">
           {messages.map((msg, index) => (
             <ChatBubble key={index} message={msg.text} time={msg.time} sender={msg.sender} />
           ))}
-          
           {showTopicSuggestions && (
             <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
               <h3 className="text-base font-semibold text-slate-800 dark:text-white">Common topics I can help with:</h3>
@@ -146,12 +181,10 @@ const AIChatPage = () => {
               </div>
             </div>
           )}
-
           {isLoading && <ChatBubble message="..." sender="bot" />}
           <div ref={chatEndRef} />
         </div>
       </div>
-
       <div className="flex-shrink-0 px-4 pb-4 pt-2">
         <MessageInput input={input} setInput={setInput} onSend={() => handleSend()} isLoading={isLoading} />
       </div>

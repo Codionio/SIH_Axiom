@@ -83,7 +83,7 @@ const LandingPage = () => {
                   <div className="mb-3 inline-flex h-12 w-12 items-center justify-center rounded-full bg-indigo-100 text-indigo-600 dark:bg-indigo-900/30 dark:text-indigo-400">
                     <FaBrain className="text-2xl" />
                   </div>
-                  <h3 className="mb-4 text-2xl font-bold">Confidential Assessments</h3>
+                  <h3 className="mb-4 text-2xl font-bold dark:text-white">Confidential Assessments</h3>
                   <p className="text-slate-600 dark:text-slate-300">
                     Start with a private, AI-driven assessment to understand your unique needs and get personalized recommendations for care and resources.
                   </p>
@@ -97,7 +97,7 @@ const LandingPage = () => {
                   <div className="mb-3 inline-flex h-12 w-12 items-center justify-center rounded-full bg-indigo-100 text-indigo-600 dark:bg-indigo-900/30 dark:text-indigo-400">
                     <FaRegComments className="text-2xl" />
                   </div>
-                  <h3 className="mb-4 text-2xl font-bold">On-Demand Support</h3>
+                  <h3 className="mb-4 text-2xl font-bold dark:text-white">On-Demand Support</h3>
                   <p className="text-slate-600 dark:text-slate-300">
                     Instantly connect with trained support staff via live chat or easily schedule a confidential appointment with a licensed therapist.
                   </p>
