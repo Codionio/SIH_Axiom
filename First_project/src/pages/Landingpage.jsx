@@ -6,12 +6,11 @@ import { Link } from "react-router-dom";
 
 // In a real app, these props would likely come from a higher-level state management
 const LandingPage = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);   // ✅ fixed
-  const [isDarkMode, setIsDarkMode] = useState(false);   // ✅ fixed
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
   return (
     <>
-
       <main>
         {/* Hero Section */}
         <section className="relative overflow-hidden bg-gradient-to-b from-indigo-50 via-white to-white py-20 dark:from-slate-900 dark:via-slate-950 dark:to-slate-950 md:py-32">
@@ -42,7 +41,7 @@ const LandingPage = () => {
               <div className="absolute -left-10 -top-10 h-64 w-64 rounded-full bg-indigo-200/50 blur-3xl dark:bg-indigo-900/40"></div>
               <div className="absolute -right-10 -bottom-10 h-64 w-64 rounded-full bg-purple-200/50 blur-3xl dark:bg-purple-900/40"></div>
               <img
-                src="/hero-mockup.png" // Your app mockup image
+                src="public/dashboard.jpg" // Your app mockup image
                 alt="Saarthi App Dashboard"
                 className="relative z-10 mx-auto rounded-2xl shadow-2xl"
               />
@@ -57,10 +56,10 @@ const LandingPage = () => {
               Trusted by Leading Universities
             </h3>
             <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-4">
-              <img src="/university-logo-1.png" alt="University Logo" className="h-8 opacity-60 dark:opacity-40" />
-              <img src="/university-logo-2.png" alt="University Logo" className="h-8 opacity-60 dark:opacity-40" />
-              <img src="/university-logo-3.png" alt="University Logo" className="h-8 opacity-60 dark:opacity-40" />
-              <img src="/university-logo-4.png" alt="University Logo" className="h-8 opacity-60 dark:opacity-40" />
+              {/* <img src="https://storage.googleapis.com/gweb-aip-images/prod/2024/04/09/11/32/22/012/2855217_11812315_1_LC.png" alt="University Logo" className="h-8 opacity-60 dark:opacity-40" />
+              <img src="https://storage.googleapis.com/gweb-aip-images/prod/2024/04/09/11/32/22/012/2855217_11812315_1_LC.png" alt="University Logo" className="h-8 opacity-60 dark:opacity-40" />
+              <img src="https://storage.googleapis.com/gweb-aip-images/prod/2024/04/09/11/32/22/012/2855217_11812315_1_LC.png" alt="University Logo" className="h-8 opacity-60 dark:opacity-40" />
+              <img src="https://storage.googleapis.com/gweb-aip-images/prod/2024/04/09/11/32/22/012/2855217_11812315_1_LC.png" alt="University Logo" className="h-8 opacity-60 dark:opacity-40" /> */}
             </div>
           </div>
         </section>
@@ -89,7 +88,7 @@ const LandingPage = () => {
                     Start with a private, AI-driven assessment to understand your unique needs and get personalized recommendations for care and resources.
                   </p>
                 </div>
-                <img src="/feature-assessment.png" alt="Assessment UI" className="rounded-xl shadow-xl" />
+                <img src="public/Assesment.jpg" alt="Assessment UI" className="rounded-xl shadow-xl" />
               </div>
 
               {/* Feature 2: Chat & Appointments */}
@@ -103,7 +102,7 @@ const LandingPage = () => {
                     Instantly connect with trained support staff via live chat or easily schedule a confidential appointment with a licensed therapist.
                   </p>
                 </div>
-                <img src="/feature-chat.png" alt="Chat UI" className="rounded-xl shadow-xl md:order-1" />
+                <img src="public/alpha.jpg" alt="Chat UI" className="rounded-xl shadow-xl md:order-1" />
               </div>
             </div>
           </div>
@@ -126,7 +125,6 @@ const LandingPage = () => {
           </div>
         </section>
       </main>
-
     </>
   );
 };
