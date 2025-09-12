@@ -11,6 +11,8 @@ import Assessment from './pages/Assessment';
 import ChatPage from './pages/ChatPage';
 import AIChatPage from './pages/AIChatPage';
 import AdminLogin from './pages/AdminLogin';
+import ResourcesPage from './pages/ResourcesPage';
+import VideoListPage from './pages/VideoListPage';
 
 // import RegisterPage from './pages/RegisterPage'; // If you have one
 // import ProfilePage from './pages/ProfilePage';   // If you have one
@@ -77,6 +79,10 @@ function App() {
             path="adminLogin"
             element={user ? <AdminLogin /> : <Navigate to="/login" />}
           />
+          <Route path="resources" element={<ResourcesPage />} />
+          <Route path="resources/:categorySlug" element={<VideoListPage />} />
+
+
         </Route>
           
 
