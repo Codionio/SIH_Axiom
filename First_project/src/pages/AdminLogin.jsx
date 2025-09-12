@@ -1,4 +1,4 @@
-import { useState } from 'react';eact';
+import { useState } from 'react';
 import {
   signInWithEmailAndPassword,
   signInWithPopup,

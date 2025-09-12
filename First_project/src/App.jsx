@@ -10,6 +10,7 @@ import Dashboard from './pages/Dashboard';
 import Assessment from './pages/Assessment';
 import ChatPage from './pages/ChatPage';
 import AIChatPage from './pages/AIChatPage';
+import AdminLogin from './pages/AdminLogin';
 
 // import RegisterPage from './pages/RegisterPage'; // If you have one
 // import ProfilePage from './pages/ProfilePage';   // If you have one
@@ -71,6 +72,10 @@ function App() {
           <Route
             path="chatbot"
             element={user ? <AIChatPage /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="adminLogin"
+            element={user ? <AdminLogin /> : <Navigate to="/login" />}
           />
         </Route>
           

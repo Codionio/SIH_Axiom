@@ -5,7 +5,7 @@ import { BsBarChartLineFill, BsPerson, BsChatDots, BsCalendarEvent, BsBook } fro
 import Light_Dark from './ui/Light_Dark';
 import { HiMenu, HiX } from 'react-icons/hi';
 import MobileMenu from './MobileMenu';
-import Newuser from '../pages/Newuser'
+// import Newuser from '../pages/Newuser'
 
 // This is the dropdown menu that appears when the user is logged in.
 const ProfileDropdown = ({ user, onLogout }) => {
@@ -57,6 +57,48 @@ const ProfileDropdown = ({ user, onLogout }) => {
     </div>
   );
 };
+
+// ✨ NEW: Dropdown menu for the Login button
+const LoginDropdown = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div className="relative">
+      {/* Login Button Trigger */}
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        onBlur={() => setIsOpen(false)} // Closes dropdown when focus is lost
+        className="rounded-lg px-5 py-2 text-sm font-medium text-slate-800 transition-colors hover:bg-slate-200/60 dark:text-slate-200 dark:hover:bg-slate-800"
+      >
+        Login
+      </button>
+
+      {/* Dropdown Menu */}
+      {isOpen && (
+        <div
+          onMouseDown={(e) => e.preventDefault()} // Prevents onBlur from firing when clicking a link
+          className="absolute right-0 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 dark:bg-slate-800"
+        >
+          <Link
+            to="/login" // Assuming '/login' is for students
+            onClick={() => setIsOpen(false)}
+            className="block w-full px-4 py-2 text-left text-sm text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-700"
+          >
+            Student Login
+          </Link>
+          <Link
+            to="/adminLogin" // Example route for admin login
+            onClick={() => setIsOpen(false)}
+            className="block w-full px-4 py-2 text-left text-sm text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-700"
+          >
+            Admin Login
+          </Link>
+        </div>
+      )}
+    </div>
+  );
+};
+
 
 // Main Navbar Component
 const Navbar = ({ user, onLogout }) => {
@@ -120,10 +162,9 @@ const Navbar = ({ user, onLogout }) => {
             <Light_Dark />
             </>
           ) : (
+            // ✨ MODIFIED: The logged-out view now uses the LoginDropdown
             <div className="hidden items-center space-x-2 md:flex">
-              <Link to="/login" className="rounded-lg px-5 py-2 text-sm font-medium text-slate-800 transition-colors hover:bg-slate-200/60 dark:text-slate-200 dark:hover:bg-slate-800">
-                Login
-              </Link>
+              <LoginDropdown /> {/* Changed this line */}
               <Link to="/Newuser" className="rounded-lg bg-indigo-600 px-5 py-2 text-sm font-medium text-white transition-colors hover:bg-indigo-500">
                 Register
               </Link>
@@ -132,7 +173,6 @@ const Navbar = ({ user, onLogout }) => {
           )}
         </div>
 
-        {/* <Light_Dark toggle={toggle} setToggle={setToggle} /> */}
       </div>
       <MobileMenu
         isOpen={isMenuOpen}
