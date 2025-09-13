@@ -3,17 +3,38 @@ import { FaUserCheck, FaBrain, FaRegComments, FaRegCalendarCheck } from 'react-i
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { Link } from "react-router-dom";
+import LiquidEther from '../components/LiquidEther.jsx';
 
-// In a real app, these props would likely come from a higher-level state management
+
+
 const LandingPage = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   return (
     <>
+      <div className='fixed to-0% w-[100%] h-[100%]  z-0'>
+        <LiquidEther
+          colors={['#5227FF', '#FF9FFC', '#B19EEF']}
+          mouseForce={20}
+          cursorSize={100}
+          isViscous={false}
+          viscous={30}
+          iterationsViscous={32}
+          iterationsPoisson={32}
+          resolution={0.5}
+          isBounce={false}
+          autoDemo={true}
+          autoSpeed={0.5}
+          autoIntensity={2.2}
+          takeoverDuration={0.25}
+          autoResumeDelay={3000}
+          autoRampDuration={0.6}
+        />
+      </div>
       <main>
         {/* Hero Section */}
-        <section className="relative overflow-hidden bg-gradient-to-b from-indigo-50 via-white to-white py-20 dark:from-slate-900 dark:via-slate-950 dark:to-slate-950 md:py-32">
+        <section className="relative overflow-hidden backdrop-blur-lg py-20  md:py-32 z-30 ">
           <div className="container mx-auto grid grid-cols-1 items-center gap-12 px-6 md:grid-cols-2">
             <div className="z-10 text-center md:text-left">
               <h1 className="mb-6 text-4xl font-extrabold leading-tight text-slate-900 dark:text-white md:text-5xl lg:text-6xl">
@@ -50,7 +71,7 @@ const LandingPage = () => {
         </section>
 
         {/* Trust Badges / Social Proof */}
-        <section className="py-12 bg-slate-50 dark:bg-slate-900">
+        <section className="py-12 backdrop-blur-lg z-30 ">
           <div className="container mx-auto px-6 text-center">
             <h3 className="mb-6 text-sm font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400">
               Trusted by Leading Universities
@@ -65,7 +86,7 @@ const LandingPage = () => {
         </section>
 
         {/* Features Section */}
-        <section id="features" className="py-20 md:py-28">
+        <section id="features" className="py-20 md:py-28 backdrop-blur-lg z-30">
           <div className="container mx-auto px-6">
             <div className="mx-auto mb-16 max-w-3xl text-center">
               <h2 className="text-4xl font-bold text-slate-900 dark:text-white md:text-5xl">
@@ -109,7 +130,7 @@ const LandingPage = () => {
         </section>
 
         {/* Final CTA Section */}
-        <section className="py-20 bg-slate-50 dark:bg-slate-900">
+        <section className="py-20 backdrop-blur-lg z-30">
           <div className="container mx-auto px-6 text-center">
             <h2 className="text-4xl font-bold text-slate-900 dark:text-white md:text-5xl">
               Take the First Step Today
