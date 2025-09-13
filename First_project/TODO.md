@@ -1,4 +1,0 @@
-- [x] Update src/data/resourceData.js to include wellnessData object with video details for each category
-- [x] Fix the route in src/App.jsx from "resourcescategorySlug" to "resources/:categorySlug"
-- [x] Modify src/pages/VideoListPage.jsx to use wellnessData instead of YouTube API fetch, compute videoId and thumbnailUrl for each video
-- [ ] Test the resources section to ensure videos display and play correctly
